@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Project Manage</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Users</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li class="nav-item ml mr-1">
+            <a class="btn btn-outline-primary active" href="#" tabindex="-1" aria-disabled="true">Account</a>
+            </li>
+            <li class="nav-item ml">
+            <a class="btn btn-outline-primary active" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item ml mr-1">
+            <a class=" btn btn-outline-primary active" href="{% url 'signin' %}" tabindex="-1" aria-disabled="true">SignIn</a>
+            </li>
+            <li class="nav-item ml">
+            <a class="btn btn-outline-primary active" href="{% url 'signup' %}" tabindex="-1" aria-disabled="true">SignUp</a>
+            </li>
+            {% endif %}
+        </ul>   
+    </div>
+</nav>
