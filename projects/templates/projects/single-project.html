@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img class="img-thumbnail rounded-circle" alt="username" src="{{project.featured_image.url}}">
+                    <p><b>{{project.author.first_name}}</b></p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="card w-75">
+            <img class="card-img-top" src="{{project.featured_image.url}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{project.name}}</h5>
+                <p class="card-text">{{project.description}}</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+            <div>
+                <h3>Project Task</h3>
+
+            </div>
+            <div>
+                <h3>Permission</h3>
+                {% for permission in permissions %}
+                    {{permission}}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

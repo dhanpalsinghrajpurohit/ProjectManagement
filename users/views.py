@@ -31,21 +31,41 @@ def signin(request):
         return redirect('home')
 
     if request.method == "POST":
-        print(request)
         username = request.POST['txt_username']
         password = request.POST['txt_password']
         try:
             user = User.objects.get(username=username)
         except:
             messages.error(request, 'Username does not exits..')
-        user = authenticate(request,username=username,password=password)
+        user = authenticate(request, username=username,password=password)
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request,"Error has occurred during the registration.. ")
+            messages.error(request, "Please! Enter a valid password ")
     context = {'page': page}
     return render(request,'users/user_signup.html',context)
+
+
+def updateUser(request):
+    page = 'update'
+    form = CustomUserCreationForm(instance=request.user)
+    if request.method == "POST":
+        form = CustomUserCreationForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Details updated successfully..")
+            return redirect('home')
+    context = {'form': form, 'page': page}
+    return render(request, 'users/user_form.html', context)
+
+
+def deleteUser(request, pk):
+    user = User.objects.get(id=pk)
+    user.delete()
+    messages.success(request, "user deleted successfully.")
+    return redirect('home')
+
 
 
 def logoutUser(request):

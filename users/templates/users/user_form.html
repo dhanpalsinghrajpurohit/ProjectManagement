@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+{%  block content %}
+<div class="text-center">
+    <div class="mx-auto card-body" style="width: 30rem;">
+         <h1 class="bg-primary btn btn-lg btn-primary btn-block">Project Manage</h1>
+         <form class="form-signin" method="post" action="{% url 'update' %}">
+             {% csrf_token %}
+            <h1 class="h3 mb-3 font-weight-normal">Please Sign Up</h1>
+             {% for field in form %}
+             <div class="form-group">
+                <label  class="sr-only">{{field.label}}</label>
+                    {{field}}
+                    {{field.errors}}
+             </div>
+             {% endfor %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+            <p class="mt-5 mb-3 text-muted">© 2021-2022</p>
+        </form>
+    </div>
+    <div class="mx-auto card-body" style="width: 30rem;">
+          <div class="alert alert-danger" role="alert">
+              <h3>Danger Zone</h3>
+        </div>
+            <h1 class="h3 mb-3 font-weight-normal">Are You want to delete the account ?</h1>
+             <a  href="{% url 'home' %}" ><button class="btn btn-lg btn-primary btn-block">Cancel</button></a>
+             <a  href="{% url 'delete' user.id %}" ><button class="btn btn-lg btn-danger btn-block"s>Delete</button></a>
+            <p class="mt-5 mb-3 text-muted">© 2021-2022</p>
+    </div>
+</div>
+{% endblock content %}
