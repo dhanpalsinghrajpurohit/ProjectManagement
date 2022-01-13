@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div>
+                <div class="card">
+                <div class="card-body text-center">
+                    <img class="img-thumbnail rounded-circle" alt="{{project.user.profiles}}" src="{{user.profile.profile_picture.url}}">
+                    <p><b>{{user.first_name}}</b></p>
+                </div>
+                <a href="" class="btn btn-primary d-flex justify-content-center">Change Profile</a>
+            </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <div>
+                <h3 class="alert alert-success">About Me</h3>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                   <h5>Username : <input type="text" class="form-control" value="{{user.username}}"  readonly/></h5>
+                    <h5>Name : <input type="text" class="form-control" value="{{user.first_name}}" readonly /></h5>
+                    <h5>Email : <input type="email" class="form-control" value="{{user.email}}" readonly/></h5>
+                    <a href="{% url 'update' %}" class="btn btn-primary">Edit Details</a>
+                </div>
+            </div>
+            <div>
+                <div class="card"><h3 class="alert alert-success">Project Details</h3></div>
+                <div class="row card-body">
+                    {% for project in projects %}
+                    <div class="card m-2 d-flex justify-content-center" style="width: 15rem;">
+                        <img class="card-img-top" src="{{ project.featured_image.url }}" alt="Card image cap" height="200px">
+                        <div class="card-body">
+                            <h5 class="card-title">{{project.name}}</h5>
+                            <p class="text-info">Author {{project.author.first_name}}</p>
+                            <a href="{% url 'project' project.id %}" class="btn btn-primary">Detail View</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="card d-flex justify-content-center" style="width: 15rem;">
+                        <a href="{% url 'project-create' %}" class="btn">
+                            <img class="card-img-top" src="{% static 'images/plus.jpg' %}" alt="Card image cap">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

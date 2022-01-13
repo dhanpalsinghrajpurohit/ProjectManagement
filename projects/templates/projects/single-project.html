@@ -5,30 +5,69 @@
         <div class="col-3">
             <div class="card">
                 <div class="card-body text-center">
-                    <img class="img-thumbnail rounded-circle" alt="username" src="{{project.featured_image.url}}">
+                    <img class="img-thumbnail rounded-circle" alt="{{project.user.profiles}}" src="{{project.author.profile.profile_picture.url}}">
                     <p><b>{{project.author.first_name}}</b></p>
                 </div>
-
             </div>
         </div>
         <div class="col-9">
-            <div class="card w-75">
+            <div class="card w-100">
             <img class="card-img-top" src="{{project.featured_image.url}}" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{project.name}}</h5>
-                <p class="card-text">{{project.description}}</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-            <div>
-                <h3>Project Task</h3>
+                <div class="card-body">
+                    <h5 class="card-title">{{project.name}}</h5>
+                    <p class="card-text">{{project.description}}</p>
+                </div>
+                <div>
+                    <div class="alert alert-primary card text-center m-3" role="alert">
+                        <h3>Project Task</h3>
+                    </div>
+                    {% if tasks %}
+                        {% for task in tasks %}
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">{{task.name}}</h5><hr>
+                                <p class="card-text">{{task.description}}</p>
+                                <p class="card-text">Assigned To {{task.assigned_to}}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-primary text-center">No task added yet.</p>
+                    {% endif %}
+                    <div class="d-flex justify-content-center m-2">
+                        {% if project.author.username == user.username %}
+                        <a href="{% url 'task-create' project.id %}" class="btn btn-outline-primary btn-lg" role="button" aria-pressed="true">Add A Task</a>
+                        {% endif %}
+                    </div>
+                </div>
 
-            </div>
-            <div>
-                <h3>Permission</h3>
-                {% for permission in permissions %}
-                    {{permission}}
-                {% endfor %}
+                <div class="alert alert-primary card text-center m-3" role="alert">
+                        <h3>Permission</h3>
+                </div>
+                <div class="d-flex justify-content-center">
+
+                        {% for permission in permissions %}
+                            {% if permission == 'WRITE' %}
+                                <div class="card">
+                                    <a href="{% url 'project-delete' project.id %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
+                                </div>
+                            {% endif %}
+
+                            {% if permission == 'UPDATE' %}
+                                <div class="card">
+                                    <a href="{% url 'project-update' project.id %}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
+                                </div>
+                            {% endif %}
+
+                            {% if permission == 'DELETE' %}
+                                <div  class="card">
+                                    <a href="{% url 'project-delete' project.id %}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
+                                </div>
+                            {% endif %}
+
+                    {% endfor %}
+
+                </div>
             </div>
         </div>
 

@@ -7,11 +7,8 @@ import uuid
 
 class Profile(models.Model):
     username = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200,blank=False)
-    email = models.CharField(max_length=200, blank=False)
-    password = models.CharField(max_length=200,blank=False)
-    created = models.DateTimeField(auto_now_add=True)
+    profile_picture = models.ImageField(null=True, blank=True, default="default.jpg")
 
     def __str__(self):
-        return str(self.name)
+        return str(self.username.first_name)
 

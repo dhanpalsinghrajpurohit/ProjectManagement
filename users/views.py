@@ -3,7 +3,15 @@ from .forms import CustomUserCreationForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate, logout
 from django.contrib.auth.models import User
+from .models import Profile
+from projects.models import ProjectPermission
 # Create your views here.
+
+
+def users(request):
+    user = User.objects.all()
+    context = {'users':user}
+    return render(request, 'users/users.html', context)
 
 
 def signup(request):
@@ -60,12 +68,22 @@ def updateUser(request):
     return render(request, 'users/user_form.html', context)
 
 
+def account(request):
+    user = request.user
+    # print(user.author.profile)
+    projects = user.project_set.filter(author__id=user.id)
+    permissions = ProjectPermission.objects.all()
+
+    print(permissions)
+    context = {'user':user, 'projects':projects}
+    return render(request, 'users/account.html', context)
+
+
 def deleteUser(request, pk):
     user = User.objects.get(id=pk)
     user.delete()
     messages.success(request, "user deleted successfully.")
     return redirect('home')
-
 
 
 def logoutUser(request):

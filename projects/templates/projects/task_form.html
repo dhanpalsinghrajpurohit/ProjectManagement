@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="">
+            <div class="mx-auto card-body" style="width: 30rem;">
+                <h1 class="alert alert-success btn btn-lg btn-block">Create Task</h1>
+                <form class="form-signin" method="post" action="{% url 'task-create' id %}">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label  class="sr-only">{{field.label}}</label>
+                        {{field}}
+                        {{field.errors}}
+                    </div>
+                    {% endfor %}
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}

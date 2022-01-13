@@ -12,7 +12,7 @@
           <a class="nav-link" href="#">Projects</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Users</a>
+          <a class="nav-link" href="{% url 'users' %}">Users</a>
         </li>
       </ul>
     </div>
@@ -20,7 +20,7 @@
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
             <li class="nav-item ml mr-1">
-            <a class="btn btn-outline-primary active" href="{% url 'update' %}" tabindex="-1" aria-disabled="true">Account</a>
+            <a class="btn btn-outline-primary active" href="{% url 'account' %}" tabindex="-1" aria-disabled="true">Account</a>
             </li>
             <li class="nav-item ml">
             <a class="btn btn-outline-primary active" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
