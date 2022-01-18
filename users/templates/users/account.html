@@ -8,9 +8,9 @@
                 <div class="card">
                 <div class="card-body text-center">
                     <img class="img-thumbnail rounded-circle" alt="{{project.user.profiles}}" src="{{user.profile.profile_picture.url}}">
-                    <p><b>{{user.first_name}}</b></p>
                 </div>
-                <a href="" class="btn btn-primary d-flex justify-content-center">Change Profile</a>
+                    <a href="{% url 'profile' %}">change dp</a>
+                <p class="btn btn-primary d-flex justify-content-center"><b>{{user.first_name}}</b></p>
             </div>
             </div>
         </div>

@@ -11,20 +11,19 @@
 <body>
     {% include 'navbar.html' %}
     {% if messages %}
-    <ul class="messages" id="message_container">
+    <ul class="messages" id="message_container" style="list-style-type: None;">
         {% for message in messages %}
             <li >
                 {% if message.tags == "error" %}
-                    <p class="alert alert-warning">{{ message }}</p>
+                    <p class="alert alert-warning text-center" style="width:100%">{{ message }}</p>
                 {% else %}
-                    <p class='alert alert-{{message.tags}}'>{{ message }}</p>
+                    <p class='alert alert-{{message.tags}} text-center' style="width:100%">{{ message }}</p>
                 {% endif %}
             </li>
         {% endfor %}
     </ul>
     {% endif %}
     {% block content %}
-        
     {% endblock content%}
 </body>
 <script>

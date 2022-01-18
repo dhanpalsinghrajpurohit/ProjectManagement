@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm,ProfileForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate, logout
 from django.contrib.auth.models import User
@@ -24,11 +24,10 @@ def signup(request):
             user.username = user.username.lower()
             user.save()
             messages.success(request, "User account was created successfully..")
-            # login(request, user)
-            return redirect('signin')
+            login(request, user)
+            return redirect('profile')
         else:
             messages.error(request, 'Error has occurred during the registration!')
-
     context = {'form': form, 'page': page}
     return render(request, 'users/user_signup.html', context)
 
@@ -73,10 +72,19 @@ def account(request):
     # print(user.author.profile)
     projects = user.project_set.filter(author__id=user.id)
     permissions = ProjectPermission.objects.all()
-
-    print(permissions)
     context = {'user':user, 'projects':projects}
     return render(request, 'users/account.html', context)
+
+
+def userProfile(request):
+    form = ProfileForm(initial={'username':request.user},instance=request.user)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('users')
+    context = {'form': form}
+    return render(request, 'users/user_image_form.html', context)
 
 
 def deleteUser(request, pk):

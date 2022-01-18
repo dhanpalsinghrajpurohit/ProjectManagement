@@ -12,7 +12,7 @@
         </div>
         <div class="col-9">
             <div class="card w-100">
-            <img class="card-img-top" src="{{project.featured_image.url}}" alt="Card image cap">
+                <img class="card-img-top" src="{{project.featured_image.url}}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{project.name}}</h5>
                     <p class="card-text">{{project.description}}</p>
@@ -28,6 +28,10 @@
                                 <h5 class="card-title text-primary">{{task.name}}</h5><hr>
                                 <p class="card-text">{{task.description}}</p>
                                 <p class="card-text">Assigned To {{task.assigned_to}}</p>
+                                {% if project.author.username == user.username %}
+                                    <a href="{% url 'task-update' pk=task.id type='update' %}" class="btn btn-outline-primary btn-lg" role="button" aria-pressed="true">Update</a>
+                                    <a href="{% url 'task-delete' task.id %}" class="btn btn-outline-danger btn-lg" role="button" aria-pressed="true">Delete</a>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}
@@ -37,35 +41,38 @@
                     <div class="d-flex justify-content-center m-2">
                         {% if project.author.username == user.username %}
                         <a href="{% url 'task-create' project.id %}" class="btn btn-outline-primary btn-lg" role="button" aria-pressed="true">Add A Task</a>
+
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="alert alert-primary card text-center m-3" role="alert">
-                        <h3>Permission</h3>
+                    <h3>Permission</h3>
                 </div>
                 <div class="d-flex justify-content-center">
+                        {% if project.author.username == user.username %}
+                            <a href="{% url 'project-delete' project.id %}" class="btn btn-primary btn-lg active m-2" role="button" aria-pressed="true">Delete</a>
+                            <a href="{% url 'project-update' project.id %}" class="btn btn-primary btn-lg active m-2" role="button" aria-pressed="true">Update</a>
+                            <a href="{% url 'project-share' project.id %}" class="btn btn-primary btn-lg active m-2" role="button" aria-pressed="true">Share</a>
+                        {% else %}
+                        {% if permissions %}
+                            {% for permission in permissions %}
+                                {% if 'UPDATE' == permission %}
+                                    <div class="card">
+                                        <a href="{% url 'project-update' project.id %}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
+                                    </div>
+                                {% endif %}
 
-                        {% for permission in permissions %}
-                            {% if permission == 'WRITE' %}
-                                <div class="card">
-                                    <a href="{% url 'project-delete' project.id %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
-                                </div>
-                            {% endif %}
-
-                            {% if permission == 'UPDATE' %}
-                                <div class="card">
-                                    <a href="{% url 'project-update' project.id %}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
-                                </div>
-                            {% endif %}
-
-                            {% if permission == 'DELETE' %}
-                                <div  class="card">
-                                    <a href="{% url 'project-delete' project.id %}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
-                                </div>
-                            {% endif %}
-
-                    {% endfor %}
+                                {% if permission == 'DELETE' %}
+                                    <div  class="card">
+                                        <a href="{% url 'project-delete' project.id %}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">{{permission}}</a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        <p class="text-primary text-center">No task added yet.</p>
+                        {% endif %}
+                    {% endif %}
 
                 </div>
             </div>

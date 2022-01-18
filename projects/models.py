@@ -30,10 +30,10 @@ class ProjectPermission(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
+    permission = models.ManyToManyField(Permission)
 
     def __str__(self):
-        return str(self.permission)
+        return str(self.project.name)
 
 
 class Task(models.Model):
@@ -41,7 +41,6 @@ class Task(models.Model):
     name = models.CharField(max_length=200)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, default=uuid.uuid4)
     description = models.CharField(max_length=200, blank=True)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, default=uuid.uuid4)
 
     def __str__(self):
         return str(self.name)
