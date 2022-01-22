@@ -17,15 +17,6 @@ def get_users(request):
     serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
 
-
-# @api_view(['POST'])
-# def signup(request):
-#     user = UserSerializer(data=request.data)
-#     if user.is_valid():
-#         user.save()
-#         return Response({"status":"success","message":"created successfully"},status.HTTP_201_CREATED)
-#     else:
-#         return Response({"status":"failed","message":"error occurred"},status.HTTP_400_BAD_REQUEST)
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
@@ -63,20 +54,6 @@ def signin(request):
         "user": user,
         "token": AuthToken.objects.create(user)[1]
     })
-    # print(username,password)
-    # user = User.objects.get(username=username)
-    # print(user)
-    # if user is not None:
-    #     print("work1")
-    #     user = authenticate(request, username=username,password=password)
-    #     print("work1")
-    #     print(user)
-    #     if user is not None:
-    #         print("work1")
-    #         login(request,user)
-    #         return Response({"status": "success", "message": "login successfully"}, status.HTTP_201_CREATED)
-    # else:
-    #     return Response({"status":"failed","message":"username and password are not exit"},status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_projects(request):
