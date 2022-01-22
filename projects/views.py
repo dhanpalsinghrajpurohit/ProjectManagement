@@ -14,9 +14,6 @@ from django.forms import forms
 
 @login_required(login_url='signin')
 def index(request):
-    # permission = ProjectPermission.objects.filter(user__id=request.user.id)
-    # temp = Project.projectpermission_set.get(id)
-    # print(temp)
     print(request.user.has_perm('Project.view_projects'))
     projects = Project.objects.filter()
     context = {'projects': projects}
@@ -28,8 +25,7 @@ def project(request, pk):
     try:
         project = Project.objects.get(id=pk)
         permission = []
-        permissions = project.projectpermission_set.get(user__id=request.user.id)
-        permissions = permissions.permission.all()
+        permissions = project.projectpermission_set.get(user__id=request.user.id).permission.all()      # removed line permissions = permissions.permission.all() 
         for per in permissions:
             if per == "DELETE" or per == "UPDATE" or per == "VIEW":
                 permission.append(per)
