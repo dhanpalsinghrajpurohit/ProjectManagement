@@ -25,7 +25,7 @@ def signup(request):
             user.save()
             messages.success(request, "User account was created successfully..")
             login(request, user)
-            return redirect('profile')
+            return redirect('home')
         else:
             messages.error(request, 'Error has occurred during the registration!')
     context = {'form': form, 'page': page}
@@ -77,12 +77,16 @@ def account(request):
 
 
 def userProfile(request):
-    form = ProfileForm(initial={'username':request.user},instance=request.user)
+    form = ProfileForm()
     if request.method == "POST":
+        print(request.FILES['profile_picture'])
         form = ProfileForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('users')
+        form = Profile(username=request.user,profile_picture=request.FILES['profile_picture'])
+        # print(form.is_valid())
+        # if form.is_valid():
+        #     print(form.save())
+        form.save()
+        return redirect('users')
     context = {'form': form}
     return render(request, 'users/user_image_form.html', context)
 

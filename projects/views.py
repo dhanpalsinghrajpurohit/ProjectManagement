@@ -71,7 +71,7 @@ def projectUpdate(request, pk):
             form = ProjectForm(request.POST, request.FILES, instance=project)
             if form.is_valid():
                 form.save()
-                return redirect('account')
+                return redirect('project',pk=project.id)
 
     except Project.DoesNotExist:
         return redirect('home')
@@ -110,10 +110,11 @@ def createTask(request, pk):
     data = Project.objects.get(id=pk)
     form = TaskForm(initial={'project': data})
     if request.method == "POST":
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('project', pk=form.instance.project.id)
+        if request.user == data.author:
+            form = TaskForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('project', pk=form.instance.project.id)
     context = {'form': form}
     return render(request, 'projects/task_form.html', context)
 
