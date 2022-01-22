@@ -28,16 +28,13 @@ def project(request, pk):
     try:
         project = Project.objects.get(id=pk)
         permission = []
-        try:
-            permissions = project.projectpermission_set.get(user__id=request.user.id)
-            permissions = permissions.permission.all()
-            for per in permissions:
-                if per == "DELETE" or per == "UPDATE" or per == "VIEW":
-                    permission.append(per)
-                else:
-                    permission.append(per.name)
-        except:
-            pass
+        permissions = project.projectpermission_set.get(user__id=request.user.id)
+        permissions = permissions.permission.all()
+        for per in permissions:
+            if per == "DELETE" or per == "UPDATE" or per == "VIEW":
+                permission.append(per)
+            else:
+                permission.append(per.name)
     except Project.DoesNotExist:
         return redirect('home')
     tasks = Task.objects.filter(project__id__icontains=project.id)
@@ -97,13 +94,6 @@ def projectShare(request, pk):
             return redirect('project', pk=form.instance.project.id)
     context = {'form': form}
     return render(request, 'projects/shareform.html', context)
-
-
-# def tasks(request,pk):
-#     tasks = Task.objects.filter(project__id=pk)
-#     context = {'tasks':tasks}
-#     return render(request, '')
-#     pass
 
 
 def createTask(request, pk):
