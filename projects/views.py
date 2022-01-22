@@ -56,7 +56,6 @@ def projectCreate(request):
 @login_required(login_url='signin')
 def projectUpdate(request, pk):
     profile = request.user
-    # project = profile.project_set.get(id=pk)
     try:
         project = Project.objects.get(id=pk)
         form = ProjectForm(instance=project)
